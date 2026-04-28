@@ -1,6 +1,6 @@
 using Metier.Interfaces;
 
-namespace Metier;
+namespace Metier.Model;
 
 /// <summary>
 /// Classe qui charge la grille de sudoku par défaut

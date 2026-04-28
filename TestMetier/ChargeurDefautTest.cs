@@ -1,5 +1,5 @@
-using Metier;
 using Metier.Interfaces;
+using Metier.Model;
 using Xunit;
 
 namespace TestMetier;

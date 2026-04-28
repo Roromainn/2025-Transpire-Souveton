@@ -1,7 +1,7 @@
 using Metier.ExepMetier;
 using Metier.Interfaces;
 
-namespace Metier;
+namespace Metier.Model;
 
 /// <summary>
 /// Classe qui represnete les grilles de sudoku

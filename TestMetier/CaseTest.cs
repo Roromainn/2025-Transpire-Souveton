@@ -1,4 +1,5 @@
 using Metier;
+using Metier.Model;
 using Xunit;
 
 namespace TestMetier;

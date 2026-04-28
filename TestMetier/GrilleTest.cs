@@ -1,6 +1,6 @@
-using Metier;
 using Metier.ExepMetier;
 using Metier.Interfaces;
+using Metier.Model;
 using Xunit;
 
 namespace TestMetier;

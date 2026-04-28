@@ -1,4 +1,4 @@
-namespace Metier;
+namespace Metier.Model;
 
 /// <summary>
 /// Classe qui représente une case de la grille de sudoku
