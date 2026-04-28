@@ -1,4 +1,4 @@
-namespace Metier;
+namespace Metier.ExepMetier;
 
 public class EGrilleCoordonnees : Exception
 {

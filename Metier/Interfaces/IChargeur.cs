@@ -1,4 +1,4 @@
-namespace Metier;
+namespace Metier.Interfaces;
 
 public interface IChargeur
 {
