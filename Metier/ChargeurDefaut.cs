@@ -2,10 +2,20 @@ using Metier.Interfaces;
 
 namespace Metier;
 
+/// <summary>
+/// Classe qui charge la grille de sudoku par défaut
+/// </summary>
 public class ChargeurDefaut : IChargeur
 {
+    #region--Attributs--
+    /// <summary>
+    /// Taille de la grile
+    /// </summary>
     private int taille;
 
+    /// <summary>
+    /// Grille par defaut du tp
+    /// </summary>
     private int[,] GrilleDefaut = new int[9, 9]
     {
         { 0, 0, 0,  0, 0, 3,  0, 0, 2 },
@@ -20,14 +30,26 @@ public class ChargeurDefaut : IChargeur
         { 0, 2, 0,  0, 0, 0,  9, 0, 0 },
         { 0, 0, 0,  0, 0, 0,  0, 7, 3 },
     };
+    #endregion
 
-    public int Taille { get { return taille; } }    
+    #region--Propriétés--
+    public int Taille { get { return taille; } }
+    #endregion
 
+    #region--Constructeurs--
     public ChargeurDefaut(int taille)
     {
         this.taille = taille;
     }
+    #endregion
 
+
+    #region--Méthodes--
+    /// <summary>
+    /// Charge la grille de sudoku par défaut et retourne un tableau de cases
+    /// </summary>
+    /// <param name="grille">grille a charger</param>
+    /// <returns>tableau de cases</returns>
     public Case[,] ChargerGrille(Grille grille)
     {
         var cases = new Case[taille, taille];
@@ -39,4 +61,5 @@ public class ChargeurDefaut : IChargeur
             }
         return cases;
     }
+    #endregion
 }
