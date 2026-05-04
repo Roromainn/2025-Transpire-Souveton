@@ -1,9 +1,10 @@
 using Metier.Interfaces;
+using System;
 
 namespace Metier.Model;
 
 /// <summary>
-/// Classe qui charge la grille de sudoku par défaut
+/// Classe qui charge la grille de sudoku par dÃ©faut
 /// </summary>
 public class ChargeurDefaut : IChargeur
 {
@@ -32,7 +33,7 @@ public class ChargeurDefaut : IChargeur
     };
     #endregion
 
-    #region--Propriétés--
+    #region--PropriÃ©tÃ©s--
     public int Taille { get { return taille; } }
     #endregion
 
@@ -43,10 +44,9 @@ public class ChargeurDefaut : IChargeur
     }
     #endregion
 
-
-    #region--Méthodes--
+    #region--MÃ©thodes--
     /// <summary>
-    /// Charge la grille de sudoku par défaut et retourne un tableau de cases
+    /// Charge la grille de sudoku par dÃ©faut et retourne un tableau de cases
     /// </summary>
     /// <param name="grille">grille a charger</param>
     /// <returns>tableau de cases</returns>
@@ -57,7 +57,9 @@ public class ChargeurDefaut : IChargeur
             for (int c = 0; c < taille; c++)
             {
                 int val = GrilleDefaut[l, c];
-                cases[l, c] = new Case(l, c, val, val != 0);
+                bool initiale = val > 0;
+                int vraieValeur = Math.Abs(val);
+                cases[l, c] = new Case(l, c, vraieValeur, initiale, initiale);
             }
         return cases;
     }

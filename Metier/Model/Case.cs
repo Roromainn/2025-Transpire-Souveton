@@ -22,6 +22,10 @@ public class Case
     /// Indique si la case est affichée
     /// </summary>
     private bool affiche;
+    /// <summary>
+    /// Indique si la case est initiale
+    /// </summary>
+    private bool initiale;
     #endregion
 
     #region--Propriétés--
@@ -29,15 +33,17 @@ public class Case
     public int Colonne { get { return colonne; } }
     public int Valeur { get { return valeur; } }
     public bool Affiche { get { return affiche; } }
+    public bool Initiale { get { return initiale; } }
     #endregion
 
     #region--Constructeurs--
-    public Case(int ligne, int colonne, int valeur, bool affiche)
+    public Case(int ligne, int colonne, int valeur, bool affiche, bool initiale)
     {
         this.ligne = ligne;
         this.colonne = colonne;
         this.valeur = valeur;
         this.affiche = affiche;
+        this.initiale = initiale;
     }
     #endregion
 }
