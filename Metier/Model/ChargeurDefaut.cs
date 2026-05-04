@@ -52,7 +52,7 @@ public class ChargeurDefaut : IChargeur
     /// <returns>tableau de cases</returns>
     public Case[,] ChargerGrille(Grille grille)
     {
-        var cases = new Case[taille, taille];
+        Case[,] cases = new Case[taille, taille];
         for (int l = 0; l < taille; l++)
             for (int c = 0; c < taille; c++)
             {

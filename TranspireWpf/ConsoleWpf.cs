@@ -31,19 +31,35 @@ public class ConsoleWpf : IConsole
                 {
                     BorderBrush = Brushes.Black,
                     BorderThickness = new Thickness(1),
-                    Width = 50,
-                    Height = 50
+                    Background = Brushes.Transparent 
                 };
 
                 var text = new TextBlock
                 {
-                    Text = cas.Valeur.ToString(),
+                    Text = cas.Affiche ? cas.Valeur.ToString() : "",
+                    Foreground = cas.Initiale ? Brushes.Blue : Brushes.Black,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     FontSize = 18
                 };
 
                 border.Child = text;
+
+                int ligne = l;
+                int colonne = c;
+                border.MouseDown += (s, e) =>
+                {
+                    try
+                    {
+                        grille.Curseur = new Coordonnes(t) { Ligne = ligne, Colonne = colonne };
+                        grille.MettreValeur();
+                        grille.Afficher();
+                    }
+                    catch
+                    {
+                    }
+                };
+
                 panel.Children.Add(border);
             }
         }
