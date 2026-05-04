@@ -25,12 +25,34 @@ public class Grille
     /// Console d'affichage de la grille
     /// </summary>
     private IConsole console;
+    
+    private int? valeurSelectionne;
+    private Coordonnes curseur;
     #endregion
 
     #region--Propriétés--
     public int Taille { get { return taille; } }
     public IChargeur Chargeur { get { return chargeur; } }
     public IConsole Console { get { return console; } }
+    
+    public int? ValeurSelectionne
+    {
+        get { return valeurSelectionne; }
+        set
+        {
+            if (value == null)
+                throw new EGrilleValeur("La valeur ne peut pas être nulle");
+            if (value < 1 || value > 9)
+                throw new EGrilleValeur($"La valeur doit être comprise entre 1 et 9, valeur reçue : {value}");
+            valeurSelectionne = value;
+        }
+    }
+    
+    public Coordonnes Curseur
+    {
+        get { return curseur; }
+        set { curseur = value; }
+    }
     #endregion
 
     #region--Contructeurs--
@@ -41,6 +63,8 @@ public class Grille
         this.taille = taille;
         this.console = console;
         this.chargeur = chargeur;
+        this.curseur = new Coordonnes(taille);
+        this.valeurSelectionne = null;
     }
     #endregion
 
@@ -79,6 +103,21 @@ public class Grille
         if (cases == null)
             throw new EGrilleCharge("La grille n'est pas chargée");
         console.AfficherGrille(this);
+    }
+
+    public void MettreValeur()
+    {
+        if (cases == null)
+            throw new EGrilleCharge("La grille n'est pas chargée");
+            
+        if (valeurSelectionne == null)
+            throw new EGrilleValeurNulle("Aucune valeur sélectionnée");
+
+        Case currentCase = cases[curseur.Ligne, curseur.Colonne];
+        if (!currentCase.Initiale && currentCase.Valeur == valeurSelectionne)
+        {
+            cases[curseur.Ligne, curseur.Colonne] = new Case(curseur.Ligne, curseur.Colonne, valeurSelectionne.Value, true, false);
+        }
     }
     #endregion
 
