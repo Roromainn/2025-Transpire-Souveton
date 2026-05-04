@@ -26,7 +26,7 @@ public class Grille
     /// </summary>
     private IConsole console;
     
-    private int valeurSelectionne;
+    private int? valeurSelectionne;
     private Coordonnes curseur;
     #endregion
 
@@ -35,13 +35,13 @@ public class Grille
     public IChargeur Chargeur { get { return chargeur; } }
     public IConsole Console { get { return console; } }
     
-    public int ValeurSelectionne
+    public int? ValeurSelectionne
     {
         get { return valeurSelectionne; }
         set
         {
-            if (value == 0)
-                throw new EGrilleValeur("La valeur ne peut pas être nulle (0)");
+            if (value == null)
+                throw new EGrilleValeur("La valeur ne peut pas être nulle");
             if (value < 1 || value > 9)
                 throw new EGrilleValeur($"La valeur doit être comprise entre 1 et 9, valeur reçue : {value}");
             valeurSelectionne = value;
@@ -64,6 +64,7 @@ public class Grille
         this.console = console;
         this.chargeur = chargeur;
         this.curseur = new Coordonnes(taille);
+        this.valeurSelectionne = null;
     }
     #endregion
 
@@ -109,13 +110,13 @@ public class Grille
         if (cases == null)
             throw new EGrilleCharge("La grille n'est pas chargée");
             
-        if (valeurSelectionne == 0)
+        if (valeurSelectionne == null)
             throw new EGrilleValeurNulle("Aucune valeur sélectionnée");
 
         Case currentCase = cases[curseur.Ligne, curseur.Colonne];
-        if (!currentCase.Initiale)
+        if (!currentCase.Initiale && currentCase.Valeur == valeurSelectionne)
         {
-            cases[curseur.Ligne, curseur.Colonne] = new Case(curseur.Ligne, curseur.Colonne, valeurSelectionne, true, false);
+            cases[curseur.Ligne, curseur.Colonne] = new Case(curseur.Ligne, curseur.Colonne, valeurSelectionne.Value, true, false);
         }
     }
     #endregion
