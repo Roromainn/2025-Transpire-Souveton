@@ -15,8 +15,7 @@ public class ChargeurDefaut : IChargeur
     private int taille;
 
     /// <summary>
-    /// Grille par defaut du tp2 (Page 4/6)
-    /// Les valeurs positives sont initiales.
+    /// Grille par defaut du tp
     /// </summary>
     private int[,] GrilleDefaut = new int[9, 9]
     {
@@ -52,7 +51,7 @@ public class ChargeurDefaut : IChargeur
     /// <returns>tableau de cases</returns>
     public Case[,] ChargerGrille(Grille grille)
     {
-        var cases = new Case[taille, taille];
+        Case[,] cases = new Case[taille, taille];
         for (int l = 0; l < taille; l++)
             for (int c = 0; c < taille; c++)
             {
