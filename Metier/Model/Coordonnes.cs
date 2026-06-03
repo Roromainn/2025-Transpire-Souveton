@@ -30,6 +30,11 @@ public class Coordonnes
         }
     }
 
+    public int Taille
+    {
+        get { return taille; }
+    }
+
     public Coordonnes(int taille)
     {
         this.taille = taille;

@@ -58,8 +58,8 @@ public class Grille
     #region--Contructeurs--
     public Grille(int taille, IConsole console, IChargeur chargeur)
     {
-        if (taille != 9)
-            throw new EGrilleTaille($"La taille doit être 9, valeur reçue : {taille}");
+        if (taille != 4 && taille != 9 && taille != 16)
+            throw new EGrilleTaille($"La taille doit être 4, 9 ou 16, valeur reçue : {taille}");
         this.taille = taille;
         this.console = console;
         this.chargeur = chargeur;
