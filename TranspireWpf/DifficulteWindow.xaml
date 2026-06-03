@@ -1,0 +1,17 @@
+<Window x:Class="TranspireWpf.DifficulteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Sélectionner Difficulté" SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+    <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <TextBlock Text="Choisir difficulté (1-6):" Margin="0,0,0,10" FontSize="14"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Name="Btn1" Content="1" Width="40" Height="40" Margin="5" Click="BtnClick"/>
+            <Button Name="Btn2" Content="2" Width="40" Height="40" Margin="5" Click="BtnClick"/>
+            <Button Name="Btn3" Content="3" Width="40" Height="40" Margin="5" Click="BtnClick"/>
+            <Button Name="Btn4" Content="4" Width="40" Height="40" Margin="5" Click="BtnClick"/>
+            <Button Name="Btn5" Content="5" Width="40" Height="40" Margin="5" Click="BtnClick"/>
+            <Button Name="Btn6" Content="6" Width="40" Height="40" Margin="5" Click="BtnClick"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
