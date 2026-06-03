@@ -13,8 +13,8 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         
-        var chargeur = new ChargeurDefaut(9);
-        var console = new ConsoleWpf(this.GrillePanel);
+        ChargeurDefaut chargeur = new ChargeurDefaut(9);
+        ConsoleWpf console = new ConsoleWpf(this.GrillePanel);
         grille = new Grille(9, console, chargeur);
         
         grille.Charger();
@@ -28,7 +28,7 @@ public partial class MainWindow : Window
         for (int i = 1; i <= 9; i++)
         {
             int val = i;
-            var btn = new Button
+            Button btn = new Button
             {
                 Content = val.ToString(),
                 Width = 30,

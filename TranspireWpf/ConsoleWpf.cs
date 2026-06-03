@@ -25,16 +25,16 @@ public class ConsoleWpf : IConsole
         {
             for (int c = 0; c < t; c++)
             {
-                var cas = grille.GetCase(l, c);
+                Case cas = grille.GetCase(l, c);
 
-                var border = new Border
+                Border border = new Border
                 {
                     BorderBrush = Brushes.Black,
                     BorderThickness = new Thickness(1),
-                    Background = Brushes.Transparent 
+                    Background = Brushes.Transparent
                 };
 
-                var text = new TextBlock
+                TextBlock text = new TextBlock
                 {
                     Text = cas.Affiche ? cas.Valeur.ToString() : "",
                     Foreground = cas.Initiale ? Brushes.Blue : Brushes.Black,

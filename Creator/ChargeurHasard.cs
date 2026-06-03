@@ -33,6 +33,81 @@ public class ChargeurHasard : IChargeur
 
     public Case[,] ChargerGrille(Grille grille)
     {
-        throw new NotImplementedException();
+        GenerateurGrille generateur = new GenerateurGrille(taille);
+        Random random = new Random();
+
+        //creer une grille 
+        int[,] grilleComplete = generateur.GrilleVide();
+        generateur.RemplirGrille(grilleComplete, 0, 0);
+
+        int[,] grilleFinal = (int[,])grilleComplete.Clone();
+
+        // Liste des cases disponibles
+        List<(int, int)> casesDisponibles = new List<(int, int)>();
+        for (int l = 0; l < taille; l++)
+        {
+            for (int c = 0; c < taille; c++)
+            {
+                casesDisponibles.Add((l, c));
+            }
+        }
+
+        int casesSupprimes = 0;
+        int casesASupprimer = difficulte * 10;
+        bool encorePossible = true;
+
+        while (casesSupprimes < casesASupprimer && encorePossible)
+        {
+            List<(int, int)> casesRestantesTour = new List<(int, int)>(casesDisponibles);
+            bool boucleCase = true;
+
+            while (boucleCase && casesRestantesTour.Count > 0)
+            {
+                int index = random.Next(casesRestantesTour.Count);
+                (int ligne, int colonne) = casesRestantesTour[index];
+                casesRestantesTour.RemoveAt(index);
+                
+                int valeurSauvegardee = grilleFinal[ligne, colonne];
+                grilleFinal[ligne, colonne] = 0;
+
+                int solutions = generateur.CalculerNombreSolutions(grilleFinal, 0, 0);
+
+                if (solutions == 1)
+                {
+                    //Case bonne, on la garde vide
+                    casesSupprimes++;
+                    casesDisponibles.Remove((ligne, colonne));
+                    boucleCase = false;
+                }
+                else
+                {
+                    //remettre la valeur
+                    grilleFinal[ligne, colonne] = valeurSauvegardee;
+                }
+
+                if (casesRestantesTour.Count == 0)
+                {
+                    encorePossible = false;
+                    boucleCase = false;
+                }
+            }
+        }
+
+        return ConvertirEnCases(grilleFinal);
+    }
+
+    private Case[,] ConvertirEnCases(int[,] grille)
+    {
+        Case[,] cases = new Case[taille, taille];
+        for (int l = 0; l < taille; l++)
+        {
+            for (int c = 0; c < taille; c++)
+            {
+                int valeur = grille[l, c];
+                bool initiale = valeur != 0;
+                cases[l, c] = new Case(l, c, valeur, initiale, false);
+            }
+        }
+        return cases;
     }
 }

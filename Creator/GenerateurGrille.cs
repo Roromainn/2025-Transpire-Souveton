@@ -45,8 +45,8 @@ public class GenerateurGrille
             }
 
             //essayer les valeurs possibles
-            var valeursPossibles = CalculerValeurPossibles(grille, ligne, colonne);
-            foreach (var valeur in valeursPossibles)
+            List<int> valeursPossibles = CalculerValeurPossibles(grille, ligne, colonne);
+            foreach (int valeur in valeursPossibles)
             {
                 grille[ligne, colonne] = valeur;
                 if (RemplirGrille(grille, ligne, colonne + 1))
@@ -65,7 +65,7 @@ public class GenerateurGrille
     /// </summary>
     public List<int> CalculerValeurPossibles(int[,] grille, int ligne, int colonne)
     {
-        var possibles = new HashSet<int>();
+        HashSet<int> possibles = new HashSet<int>();
         for (int i = 1; i <= taille; i++)
         {
             possibles.Add(i);
@@ -105,7 +105,7 @@ public class GenerateurGrille
     /// </summary>
     public int CalculerNombreSolutions(int[,] grille, int ligne, int colonne)
     {
-        var gridCopy = (int[,])grille.Clone();
+        int[,] gridCopy = (int[,])grille.Clone();
         return CompterSolutions(gridCopy, ligne, colonne);
     }
 
@@ -128,9 +128,9 @@ public class GenerateurGrille
 
             // Compter les solutions
             int count = 0;
-            var valeursPossibles = CalculerValeurPossibles(grille, ligne, colonne);
+            List<int> valeursPossibles = CalculerValeurPossibles(grille, ligne, colonne);
 
-            foreach (var valeur in valeursPossibles)
+            foreach (int valeur in valeursPossibles)
             {
                 grille[ligne, colonne] = valeur;
                 count += CompterSolutions(grille, ligne, colonne + 1);
