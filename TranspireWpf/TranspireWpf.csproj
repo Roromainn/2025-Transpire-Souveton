@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Metier\Metier.csproj" />
+    <ProjectReference Include="..\Creator\Creator.csproj" />
   </ItemGroup>
 
 </Project>

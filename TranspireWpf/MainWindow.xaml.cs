@@ -1,3 +1,4 @@
+using Creator.Model;
 using Metier.Model;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,17 +10,17 @@ public partial class MainWindow : Window
 {
     private Grille grille;
 
-    public MainWindow()
+    public MainWindow(int difficulte)
     {
         InitializeComponent();
-        
-        ChargeurDefaut chargeur = new ChargeurDefaut(9);
+
+        ChargeurHasard chargeur = new ChargeurHasard(9, difficulte);
         ConsoleWpf console = new ConsoleWpf(this.GrillePanel);
         grille = new Grille(9, console, chargeur);
-        
+
         grille.Charger();
         grille.Afficher();
-        
+
         CreerBoutons();
     }
 
@@ -59,5 +60,14 @@ public partial class MainWindow : Window
                 btn.ClearValue(Button.BorderBrushProperty);
             }
         }
+    }
+
+    public void ChargerGrille(int difficulte)
+    {
+        ChargeurHasard chargeur = new ChargeurHasard(9, difficulte);
+        ConsoleWpf console = new ConsoleWpf(this.GrillePanel);
+        grille = new Grille(9, console, chargeur);
+        grille.Charger();
+        grille.Afficher();
     }
 }
