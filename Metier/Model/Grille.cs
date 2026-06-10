@@ -28,13 +28,15 @@ public class Grille
     
     private int? valeurSelectionne;
     private Coordonnes curseur;
+    private bool choixMode;
     #endregion
 
     #region--Propriétés--
     public int Taille { get { return taille; } }
     public IChargeur Chargeur { get { return chargeur; } }
     public IConsole Console { get { return console; } }
-    
+    public bool Choix { get { return choixMode; } }
+
     public int? ValeurSelectionne
     {
         get { return valeurSelectionne; }
@@ -109,14 +111,99 @@ public class Grille
     {
         if (cases == null)
             throw new EGrilleCharge("La grille n'est pas chargée");
-            
+
         if (valeurSelectionne == null)
             throw new EGrilleValeurNulle("Aucune valeur sélectionnée");
 
         Case currentCase = cases[curseur.Ligne, curseur.Colonne];
-        if (!currentCase.Initiale && currentCase.Valeur == valeurSelectionne)
+        if (!currentCase.Initiale && currentCase.Valeur == 0
+            && ValeurValide(curseur.Ligne, curseur.Colonne, valeurSelectionne.Value))
         {
-            cases[curseur.Ligne, curseur.Colonne] = new Case(curseur.Ligne, curseur.Colonne, valeurSelectionne.Value, true, false);
+            currentCase.SetValeur(valeurSelectionne.Value);
+            currentCase.Choix.Clear();
+        }
+    }
+
+    /// <summary>
+    /// Vérifie qu'une valeur peut être placée sans conflit (ligne, colonne, sous-grille)
+    /// </summary>
+    public bool ValeurValide(int ligne, int colonne, int valeur)
+    {
+        if (cases == null)
+            throw new EGrilleCharge("La grille n'est pas chargée");
+
+        // Vérifier la ligne
+        for (int c = 0; c < taille; c++)
+        {
+            if (c != colonne && cases[ligne, c].Affiche && cases[ligne, c].Valeur == valeur)
+                return false;
+        }
+
+        // Vérifier la colonne
+        for (int l = 0; l < taille; l++)
+        {
+            if (l != ligne && cases[l, colonne].Affiche && cases[l, colonne].Valeur == valeur)
+                return false;
+        }
+
+        // Vérifier la sous-grille
+        int racine = (int)Math.Sqrt(taille);
+        int sousLigneDebut = (ligne / racine) * racine;
+        int sousColonneDebut = (colonne / racine) * racine;
+        for (int l = sousLigneDebut; l < sousLigneDebut + racine; l++)
+        {
+            for (int c = sousColonneDebut; c < sousColonneDebut + racine; c++)
+            {
+                if ((l != ligne || c != colonne) && cases[l, c].Affiche && cases[l, c].Valeur == valeur)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void ChangerMode()
+    {
+        choixMode = !choixMode;
+    }
+
+    public void EnleverChoix()
+    {
+        if (cases == null)
+            throw new EGrilleCharge("La grille n'est pas chargée");
+
+        if (valeurSelectionne == null)
+            throw new EGrilleValeurNulle("Aucune valeur sélectionnée");
+
+        int racine = (int)Math.Sqrt(taille);
+        int ligne = curseur.Ligne;
+        int colonne = curseur.Colonne;
+        int valeur = valeurSelectionne.Value;
+
+        // Enlever choix de la case du curseur
+        cases[ligne, colonne].Choix.Clear();
+
+        // Enlever choix de la ligne
+        for (int c = 0; c < taille; c++)
+        {
+            cases[ligne, c].Choix.Remove(valeur);
+        }
+
+        // Enlever choix de la colonne
+        for (int l = 0; l < taille; l++)
+        {
+            cases[l, colonne].Choix.Remove(valeur);
+        }
+
+        // Enlever choix de la sous-grille
+        int sousLigneDebut = (ligne / racine) * racine;
+        int sousColonneDebut = (colonne / racine) * racine;
+        for (int l = sousLigneDebut; l < sousLigneDebut + racine; l++)
+        {
+            for (int c = sousColonneDebut; c < sousColonneDebut + racine; c++)
+            {
+                cases[l, c].Choix.Remove(valeur);
+            }
         }
     }
     #endregion

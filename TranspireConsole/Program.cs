@@ -51,7 +51,22 @@ while (continuer)
                 grille.Curseur.Colonne++;
                 break;
             case ConsoleKey.Enter:
-                grille.MettreValeur();
+                if (grille.Choix)
+                {
+                    if (grille.ValeurSelectionne.HasValue)
+                    {
+                        grille.GetCase(grille.Curseur.Ligne, grille.Curseur.Colonne).Choisir(grille.ValeurSelectionne.Value);
+                    }
+                }
+                else
+                {
+                    grille.EnleverChoix();
+                    grille.MettreValeur();
+                }
+                break;
+            case ConsoleKey.M:
+            case ConsoleKey.Spacebar:
+                grille.ChangerMode();
                 break;
             case ConsoleKey.Q:
                 continuer = false;
@@ -64,6 +79,10 @@ while (continuer)
                     {
                         grille.ValeurSelectionne = val;
                     }
+                }
+                else if (char.ToUpper(touche.KeyChar) == 'M')
+                {
+                    grille.ChangerMode();
                 }
                 break;
         }

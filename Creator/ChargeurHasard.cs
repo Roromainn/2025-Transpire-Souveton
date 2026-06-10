@@ -105,7 +105,7 @@ public class ChargeurHasard : IChargeur
             {
                 int valeur = grille[l, c];
                 bool initiale = valeur != 0;
-                cases[l, c] = new Case(l, c, valeur, initiale, false);
+                cases[l, c] = new Case(l, c, valeur, initiale, initiale);
             }
         }
         return cases;
