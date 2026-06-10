@@ -16,8 +16,7 @@ public class GrilleTest
                 for (int c = 0; c < grille.Taille; c++)
                 {
                     bool init = (l == 0 && c == 0);
-                    int valeur = init ? 1 : 0;
-                    cases[l, c] = new Case(l, c, valeur, init, init);
+                    cases[l, c] = new Case(l, c, 1, init, init);
                 }
             return cases;
         }
@@ -69,14 +68,15 @@ public class GrilleTest
     {
         Grille g = CreerGrille();
         g.Charger();
-        g.ValeurSelectionne = 2;
+        // 1 = solution de (1,1) => révélée
+        g.ValeurSelectionne = 1;
         g.Curseur.Ligne = 1;
         g.Curseur.Colonne = 1;
 
         g.MettreValeur();
         Case c = g.GetCase(1, 1);
         Assert.True(c.Affiche);
-        Assert.Equal(2, c.Valeur);
+        Assert.Equal(1, c.Valeur);
     }
 
     [Fact]
@@ -84,52 +84,13 @@ public class GrilleTest
     {
         Grille g = CreerGrille();
         g.Charger();
-        g.ValeurSelectionne = 1;
+        g.ValeurSelectionne = 2;
         g.Curseur.Ligne = 1;
         g.Curseur.Colonne = 1;
 
         g.MettreValeur();
         Case c = g.GetCase(1, 1);
         Assert.False(c.Affiche);
-    }
-
-    [Fact]
-    public void ValeurValideAccepteValeurSansConflit()
-    {
-        Grille g = CreerGrille();
-        g.Charger();
-        Assert.True(g.ValeurValide(4, 4, 2));
-    }
-
-    [Fact]
-    public void ValeurValideRefuseConflitSousGrille()
-    {
-        Grille g = CreerGrille();
-        g.Charger();
-        Assert.False(g.ValeurValide(1, 1, 1));
-    }
-
-    [Fact]
-    public void ValeurValideRefuseConflitLigne()
-    {
-        Grille g = CreerGrille();
-        g.Charger();
-        Assert.False(g.ValeurValide(0, 5, 1));
-    }
-
-    [Fact]
-    public void ValeurValideRefuseConflitColonne()
-    {
-        Grille g = CreerGrille();
-        g.Charger();
-        Assert.False(g.ValeurValide(5, 0, 1));
-    }
-
-    [Fact]
-    public void ValeurValideSansCharger()
-    {
-        Grille g = CreerGrille();
-        Assert.Throws<EGrilleCharge>(() => g.ValeurValide(0, 0, 1));
     }
 
     [Fact]

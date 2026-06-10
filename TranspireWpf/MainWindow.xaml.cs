@@ -15,13 +15,19 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         ChargeurHasard chargeur = new ChargeurHasard(9, difficulte);
-        ConsoleWpf console = new ConsoleWpf(this.GrillePanel);
+        ConsoleWpf console = new ConsoleWpf(this.GrillePanel, this.ModeLabel);
         grille = new Grille(9, console, chargeur);
 
         grille.Charger();
         grille.Afficher();
 
         CreerBoutons();
+    }
+
+    private void ModeBorder_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        grille.ChangerMode();
+        grille.Afficher();
     }
 
     private void CreerBoutons()
@@ -65,7 +71,7 @@ public partial class MainWindow : Window
     public void ChargerGrille(int difficulte)
     {
         ChargeurHasard chargeur = new ChargeurHasard(9, difficulte);
-        ConsoleWpf console = new ConsoleWpf(this.GrillePanel);
+        ConsoleWpf console = new ConsoleWpf(this.GrillePanel, this.ModeLabel);
         grille = new Grille(9, console, chargeur);
         grille.Charger();
         grille.Afficher();

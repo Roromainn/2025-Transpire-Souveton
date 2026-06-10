@@ -93,18 +93,22 @@ public class ChargeurHasard : IChargeur
             }
         }
 
-        return ConvertirEnCases(grilleFinal);
+        return ConvertirEnCases(grilleComplete, grilleFinal);
     }
 
-    private Case[,] ConvertirEnCases(int[,] grille)
+    /// <summary>
+    /// Convertit en Case[,] : la valeur stockée est la solution,
+    /// affiche/initiale dépend si la case est un indice de départ (non supprimée).
+    /// </summary>
+    private Case[,] ConvertirEnCases(int[,] solution, int[,] grilleFinal)
     {
         Case[,] cases = new Case[taille, taille];
         for (int l = 0; l < taille; l++)
         {
             for (int c = 0; c < taille; c++)
             {
-                int valeur = grille[l, c];
-                bool initiale = valeur != 0;
+                int valeur = solution[l, c];
+                bool initiale = grilleFinal[l, c] != 0;
                 cases[l, c] = new Case(l, c, valeur, initiale, initiale);
             }
         }

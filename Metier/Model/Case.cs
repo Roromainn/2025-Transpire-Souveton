@@ -66,11 +66,10 @@ public class Case
     }
 
     /// <summary>
-    /// Met à jour la valeur et l'affichage
+    /// Révèle la case (la valeur est déjà la solution)
     /// </summary>
-    public void SetValeur(int valeur)
+    public void Reveler()
     {
-        this.valeur = valeur;
         this.affiche = true;
     }
     #endregion
