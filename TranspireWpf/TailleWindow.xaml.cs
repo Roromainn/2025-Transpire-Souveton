@@ -18,9 +18,11 @@ public partial class TailleWindow : Window
 
     private void BtnClick(object sender, RoutedEventArgs e)
     {
-        this.taille = taille;
-        DialogResult = true;
-        Close();
-        
+        if (sender is System.Windows.Controls.Button button && int.TryParse(button.Content.ToString(), out int t))
+        {
+            this.taille = t;
+            DialogResult = true;
+            Close();
+        }
     }
 }
