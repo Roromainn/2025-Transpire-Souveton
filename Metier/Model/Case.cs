@@ -26,6 +26,10 @@ public class Case
     /// Indique si la case est initiale
     /// </summary>
     private bool initiale;
+    /// <summary>
+    /// Valeurs possibles pour cette case
+    /// </summary>
+    private List<int> choix;
     #endregion
 
     #region--Propriétés--
@@ -34,6 +38,7 @@ public class Case
     public int Valeur { get { return valeur; } }
     public bool Affiche { get { return affiche; } }
     public bool Initiale { get { return initiale; } }
+    public List<int> Choix { get { return choix; } }
     #endregion
 
     #region--Constructeurs--
@@ -44,6 +49,28 @@ public class Case
         this.valeur = valeur;
         this.affiche = affiche;
         this.initiale = initiale;
+        this.choix = new List<int>();
+    }
+    #endregion
+
+    #region--Méthodes--
+    /// <summary>
+    /// Ajoute ou enlève un choix
+    /// </summary>
+    public void Choisir(int valeur)
+    {
+        if (choix.Contains(valeur))
+            choix.Remove(valeur);
+        else
+            choix.Add(valeur);
+    }
+
+    /// <summary>
+    /// Révèle la case (la valeur est déjà la solution)
+    /// </summary>
+    public void Reveler()
+    {
+        this.affiche = true;
     }
     #endregion
 }

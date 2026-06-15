@@ -1,9 +1,29 @@
+using Creator.Model;
 using Metier.Model;
 using TranspireConsole;
 using System;
 
+// Demander la difficulté
+Console.WriteLine("Choisir difficulté (1-6): ");
+int difficulte = 3;
+bool difficulteValide = false;
+
+while (!difficulteValide)
+{
+    string input = Console.ReadLine();
+    if (int.TryParse(input, out int d) && d >= 1 && d <= 6)
+    {
+        difficulte = d;
+        difficulteValide = true;
+    }
+    else
+    {
+        Console.WriteLine("Difficulté invalide. Entrez un nombre entre 1 et 6: ");
+    }
+}
+
 ConsoleTexte consoleTexte = new ConsoleTexte();
-ChargeurDefaut chargeur = new ChargeurDefaut(9);
+ChargeurHasard chargeur = new ChargeurHasard(9, difficulte);
 Grille grille = new Grille(9, consoleTexte, chargeur);
 grille.Charger();
 
@@ -31,9 +51,24 @@ while (continuer)
                 grille.Curseur.Colonne++;
                 break;
             case ConsoleKey.Enter:
-                grille.MettreValeur();
-                if (grille.PartieTerminee)
-                    continuer = false;
+                if (grille.Choix)
+                {
+                    if (grille.ValeurSelectionne.HasValue)
+                    {
+                        grille.GetCase(grille.Curseur.Ligne, grille.Curseur.Colonne).Choisir(grille.ValeurSelectionne.Value);
+                    }
+                }
+                else
+                {
+                    grille.EnleverChoix();
+                    grille.MettreValeur();
+                    if (grille.PartieTerminee)
+                        continuer = false;
+                }
+                break;
+            case ConsoleKey.M:
+            case ConsoleKey.Spacebar:
+                grille.ChangerMode();
                 break;
             case ConsoleKey.Q:
                 continuer = false;
@@ -46,6 +81,10 @@ while (continuer)
                     {
                         grille.ValeurSelectionne = val;
                     }
+                }
+                else if (char.ToUpper(touche.KeyChar) == 'M')
+                {
+                    grille.ChangerMode();
                 }
                 break;
         }

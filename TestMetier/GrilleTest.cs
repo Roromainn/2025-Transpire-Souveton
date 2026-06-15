@@ -15,7 +15,6 @@ public class GrilleTest
             for (int l = 0; l < grille.Taille; l++)
                 for (int c = 0; c < grille.Taille; c++)
                 {
-                    // On met 1 partout, et (0,0) est initiale
                     bool init = (l == 0 && c == 0);
                     cases[l, c] = new Case(l, c, 1, init, init);
                 }
@@ -71,10 +70,11 @@ public class GrilleTest
     {
         Grille g = CreerGrille();
         g.Charger();
-        g.ValeurSelectionne = 1; 
-        g.Curseur.Ligne = 1; 
+        // 1 = solution de (1,1) => révélée
+        g.ValeurSelectionne = 1;
+        g.Curseur.Ligne = 1;
         g.Curseur.Colonne = 1;
-        
+
         g.MettreValeur();
         Case c = g.GetCase(1, 1);
         Assert.True(c.Affiche);
@@ -86,10 +86,10 @@ public class GrilleTest
     {
         Grille g = CreerGrille();
         g.Charger();
-        g.ValeurSelectionne = 2; 
+        g.ValeurSelectionne = 2;
         g.Curseur.Ligne = 1;
         g.Curseur.Colonne = 1;
-        
+
         g.MettreValeur();
         Case c = g.GetCase(1, 1);
         Assert.False(c.Affiche);
