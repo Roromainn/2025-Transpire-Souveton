@@ -82,7 +82,7 @@ public class ConsoleWpf : IConsole
                     BorderBrush = couleurBordure,
                     BorderThickness = epaisseurBordure,
                     Background = Brushes.Transparent,
-                    Child = CreerContenu(cas)
+                    Child = CreerContenu(cas, t, racine)
                 };
 
                 int ligne = l;
@@ -125,9 +125,31 @@ public class ConsoleWpf : IConsole
     }
 
     /// <summary>
+    /// Convertit une valeur en symbole : 1-9 en chiffres, 10-16 en lettres A-G
+    /// </summary>
+    public static string Symbole(int valeur)
+    {
+        if (valeur <= 9)
+            return valeur.ToString();
+        return ((char)('A' + valeur - 10)).ToString();
+    }
+
+    /// <summary>
+    /// Taille de police de la valeur remplie selon la taille de la grille
+    /// </summary>
+    private double PoliceValeur(int t)
+    {
+        if (t == 4)
+            return 40;
+        if (t == 9)
+            return 28;
+        return 16;
+    }
+
+    /// <summary>
     /// Crée le contenu d'une case : valeur centrée si remplie, sinon mini-grille de choix
     /// </summary>
-    private UIElement CreerContenu(Case cas)
+    private UIElement CreerContenu(Case cas, int t, int racine)
     {
         if (cas.Affiche)
         {
@@ -137,21 +159,22 @@ public class ConsoleWpf : IConsole
 
             return new TextBlock
             {
-                Text = cas.Valeur.ToString(),
+                Text = Symbole(cas.Valeur),
                 Foreground = couleur,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                FontSize = 28,
+                FontSize = PoliceValeur(t),
                 FontWeight = FontWeights.Bold
             };
         }
 
-        UniformGrid mini = new UniformGrid { Rows = 3, Columns = 3 };
-        for (int chiffre = 1; chiffre <= 9; chiffre++)
+        double policeMini = PoliceValeur(t) / racine;
+        UniformGrid mini = new UniformGrid { Rows = racine, Columns = racine };
+        for (int chiffre = 1; chiffre <= t; chiffre++)
         {
             string texte = "";
             if (cas.Choix.Contains(chiffre))
-                texte = chiffre.ToString();
+                texte = Symbole(chiffre);
 
             TextBlock tb = new TextBlock
             {
@@ -159,7 +182,7 @@ public class ConsoleWpf : IConsole
                 Foreground = Brushes.Green,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                FontSize = 11
+                FontSize = policeMini
             };
             mini.Children.Add(tb);
         }
