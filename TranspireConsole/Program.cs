@@ -32,6 +32,8 @@ while (continuer)
                 break;
             case ConsoleKey.Enter:
                 grille.MettreValeur();
+                if (grille.PartieTerminee)
+                    continuer = false;
                 break;
             case ConsoleKey.Q:
                 continuer = false;

@@ -10,16 +10,19 @@ namespace TranspireWpf;
 public class ConsoleWpf : IConsole
 {
     private readonly UniformGrid panel;
+    private readonly TextBlock erreursLabel;
 
-    public ConsoleWpf(UniformGrid panel)
+    public ConsoleWpf(UniformGrid panel, TextBlock erreursLabel)
     {
         this.panel = panel;
+        this.erreursLabel = erreursLabel;
     }
 
     public void AfficherGrille(Grille grille)
     {
         int t = grille.Taille;
         panel.Children.Clear();
+        erreursLabel.Text = "Erreurs : " + grille.Erreurs + " / 3";
 
         for (int l = 0; l < t; l++)
         {
@@ -63,5 +66,10 @@ public class ConsoleWpf : IConsole
                 panel.Children.Add(border);
             }
         }
+    }
+
+    public void AfficherFin(string message)
+    {
+        System.Windows.MessageBox.Show(message, "Fin de partie", System.Windows.MessageBoxButton.OK);
     }
 }

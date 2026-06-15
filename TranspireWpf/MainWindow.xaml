@@ -10,9 +10,12 @@
         
         <UniformGrid x:Name="GrillePanel" Rows="9" Columns="9"/>
         
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <TextBlock Text="Valeur sélectionnée:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <UniformGrid x:Name="BoutonsPanel" Rows="1" Columns="9"/>
+        <StackPanel Grid.Row="1" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Valeur Sélectionnée:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <UniformGrid x:Name="BoutonsPanel" Rows="1" Columns="9"/>
+            </StackPanel>
+            <TextBlock x:Name="ErreursLabel" Text="Erreurs : 0 / 3" HorizontalAlignment="Center" Margin="0,5,0,0" FontWeight="Bold"/>
         </StackPanel>
     </Grid>
 </Window>

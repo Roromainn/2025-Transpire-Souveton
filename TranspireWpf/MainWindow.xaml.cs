@@ -14,7 +14,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         
         ChargeurDefaut chargeur = new ChargeurDefaut(9);
-        ConsoleWpf console = new ConsoleWpf(this.GrillePanel);
+        ConsoleWpf console = new ConsoleWpf(this.GrillePanel, this.ErreursLabel);
         grille = new Grille(9, console, chargeur);
         
         grille.Charger();

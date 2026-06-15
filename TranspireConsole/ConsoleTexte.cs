@@ -102,12 +102,30 @@ public class ConsoleTexte : IConsole
         Console.Write("\nValeur sélectionnée : ");
         for (int i = 1; i <= 9; i++)
         {
-            if 
-                (grille.ValeurSelectionne == i) Console.ForegroundColor = ConsoleColor.Red;
-            else 
+            if (grille.ValeurSelectionne == i)
+                Console.ForegroundColor = ConsoleColor.Red;
+            else
                 Console.ForegroundColor = ConsoleColor.White;
             Console.Write(i + " ");
             Console.ResetColor();
         }
+        Console.WriteLine("\nErreurs : " + grille.Erreurs + "/3");
+    }
+
+    public void AfficherFin(string message)
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("\n\n");
+        Console.WriteLine("  ╔══════════════════════════════════════╗");
+        Console.WriteLine("  ║                                      ║");
+        string ligne = "  ║  " + message;
+        ligne = ligne.PadRight(41) + "║";
+        Console.WriteLine(ligne);
+        Console.WriteLine("  ║                                      ║");
+        Console.WriteLine("  ╚══════════════════════════════════════╝");
+        Console.ResetColor();
+        Console.WriteLine("\n  Appuyez sur une touche pour quitter...");
+        Console.ReadKey(true);
     }
 }

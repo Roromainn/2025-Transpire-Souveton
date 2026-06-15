@@ -28,13 +28,17 @@ public class Grille
     
     private int? valeurSelectionne;
     private Coordonnes curseur;
+    private int erreurs;
+    private bool partieTerminee;
     #endregion
 
     #region--Propriétés--
     public int Taille { get { return taille; } }
     public IChargeur Chargeur { get { return chargeur; } }
     public IConsole Console { get { return console; } }
-    
+    public int Erreurs { get { return erreurs; } }
+    public bool PartieTerminee { get { return partieTerminee; } }
+
     public int? ValeurSelectionne
     {
         get { return valeurSelectionne; }
@@ -65,6 +69,8 @@ public class Grille
         this.chargeur = chargeur;
         this.curseur = new Coordonnes(taille);
         this.valeurSelectionne = null;
+        this.erreurs = 0;
+        this.partieTerminee = false;
     }
     #endregion
 
@@ -109,15 +115,45 @@ public class Grille
     {
         if (cases == null)
             throw new EGrilleCharge("La grille n'est pas chargée");
-            
+
         if (valeurSelectionne == null)
             throw new EGrilleValeurNulle("Aucune valeur sélectionnée");
 
         Case currentCase = cases[curseur.Ligne, curseur.Colonne];
-        if (!currentCase.Initiale && currentCase.Valeur == valeurSelectionne)
+        if (!currentCase.Initiale && !currentCase.Affiche)
         {
-            cases[curseur.Ligne, curseur.Colonne] = new Case(curseur.Ligne, curseur.Colonne, valeurSelectionne.Value, true, false);
+            if (currentCase.Valeur == valeurSelectionne)
+            {
+                cases[curseur.Ligne, curseur.Colonne] = new Case(curseur.Ligne, curseur.Colonne, valeurSelectionne.Value, true, false);
+                if (EstPleine())
+                {
+                    partieTerminee = true;
+                    console.AfficherFin("Vous avez gagné avec " + erreurs + " erreur");
+                }
+            }
+            else
+            {
+                erreurs++;
+                if (erreurs >= 3)
+                {
+                    partieTerminee = true;
+                    console.AfficherFin("Vous avez perdu");
+                }
+            }
         }
+    }
+
+    private bool EstPleine()
+    {
+        for (int l = 0; l < taille; l++)
+        {
+            for (int c = 0; c < taille; c++)
+            {
+                if (!cases![l, c].Affiche)
+                    return false;
+            }
+        }
+        return true;
     }
     #endregion
 
