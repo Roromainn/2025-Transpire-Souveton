@@ -10,18 +10,10 @@ public partial class MainWindow : Window
 {
     private Grille grille;
 
-    public MainWindow(int difficulte)
+    public MainWindow()
     {
         InitializeComponent();
-
-        ChargeurHasard chargeur = new ChargeurHasard(9, difficulte);
-        ConsoleWpf console = new ConsoleWpf(this.GrillePanel, this.ModeLabel, this.ErreursLabel);
-        grille = new Grille(9, console, chargeur);
-
-        grille.Charger();
-        grille.Afficher();
-
-        CreerBoutons();
+        ChargerGrille(9, 3);
     }
 
     private void ModeBorder_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -32,15 +24,19 @@ public partial class MainWindow : Window
 
     private void CreerBoutons()
     {
-        for (int i = 1; i <= 9; i++)
+        BoutonsPanel.Children.Clear();
+        int t = grille.Taille;
+        BoutonsPanel.Columns = t;
+        for (int i = 1; i <= t; i++)
         {
             int val = i;
             Button btn = new Button
             {
-                Content = val.ToString(),
+                Content = ConsoleWpf.Symbole(val),
+                Tag = val,
                 Width = 30,
                 Height = 30,
-                Margin = new Thickness(5),
+                Margin = new Thickness(2),
                 Background = Brushes.White
             };
             btn.Click += (s, e) => {
@@ -55,7 +51,7 @@ public partial class MainWindow : Window
     {
         foreach (Button btn in BoutonsPanel.Children)
         {
-            if (btn.Content.ToString() == grille.ValeurSelectionne?.ToString())
+            if (btn.Tag is int val && grille.ValeurSelectionne == val)
             {
                 btn.Foreground = Brushes.Red;
                 btn.BorderBrush = Brushes.Red;
@@ -68,12 +64,15 @@ public partial class MainWindow : Window
         }
     }
 
-    public void ChargerGrille(int difficulte)
+    public void ChargerGrille(int taille, int difficulte)
     {
-        ChargeurHasard chargeur = new ChargeurHasard(9, difficulte);
+        GrillePanel.Rows = taille;
+        GrillePanel.Columns = taille;
+        ChargeurHasard chargeur = new ChargeurHasard(taille, difficulte);
         ConsoleWpf console = new ConsoleWpf(this.GrillePanel, this.ModeLabel, this.ErreursLabel);
-        grille = new Grille(9, console, chargeur);
+        grille = new Grille(taille, console, chargeur);
         grille.Charger();
         grille.Afficher();
+        CreerBoutons();
     }
 }
