@@ -16,5 +16,9 @@ namespace TestCreator
         public void AfficherGrille(Grille grille)
         {
         }
+
+        public void AfficherFin(string message)
+        {
+        }
     }
 }

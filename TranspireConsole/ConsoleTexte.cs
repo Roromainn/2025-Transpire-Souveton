@@ -80,7 +80,24 @@ public class ConsoleTexte : IConsole
             Console.Write(i + " ");
             Console.ResetColor();
         }
-        Console.WriteLine();
+        Console.WriteLine("\nErreurs : " + grille.Erreurs + "/3");
+    }
+
+    public void AfficherFin(string message)
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("\n\n");
+        Console.WriteLine("  ╔══════════════════════════════════════╗");
+        Console.WriteLine("  ║                                      ║");
+        string ligne = "  ║  " + message;
+        ligne = ligne.PadRight(41) + "║";
+        Console.WriteLine(ligne);
+        Console.WriteLine("  ║                                      ║");
+        Console.WriteLine("  ╚══════════════════════════════════════╝");
+        Console.ResetColor();
+        Console.WriteLine("\n  Appuyez sur une touche pour quitter...");
+        Console.ReadKey(true);
     }
 
     /// <summary>

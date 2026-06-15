@@ -15,7 +15,7 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         ChargeurHasard chargeur = new ChargeurHasard(9, difficulte);
-        ConsoleWpf console = new ConsoleWpf(this.GrillePanel, this.ModeLabel);
+        ConsoleWpf console = new ConsoleWpf(this.GrillePanel, this.ModeLabel, this.ErreursLabel);
         grille = new Grille(9, console, chargeur);
 
         grille.Charger();
@@ -71,7 +71,7 @@ public partial class MainWindow : Window
     public void ChargerGrille(int difficulte)
     {
         ChargeurHasard chargeur = new ChargeurHasard(9, difficulte);
-        ConsoleWpf console = new ConsoleWpf(this.GrillePanel, this.ModeLabel);
+        ConsoleWpf console = new ConsoleWpf(this.GrillePanel, this.ModeLabel, this.ErreursLabel);
         grille = new Grille(9, console, chargeur);
         grille.Charger();
         grille.Afficher();

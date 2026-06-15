@@ -25,7 +25,9 @@ public class GrilleTest
     private class FakeConsole : IConsole
     {
         public bool AfficherAppele { get; private set; }
-        public void AfficherGrille(Grille grille) => AfficherAppele = true;
+        public string? DernierMessage { get; private set; }
+        public void AfficherGrille(Grille grille) { AfficherAppele = true; }
+        public void AfficherFin(string message) { DernierMessage = message; }
     }
 
     private Grille CreerGrille(FakeConsole? console = null, FakeChargeur? chargeur = null)
@@ -151,5 +153,75 @@ public class GrilleTest
         g.Charger();
         g.Afficher();
         Assert.True(console.AfficherAppele);
+    }
+
+    [Fact]
+    public void ErreursInitialementZero()
+    {
+        Grille g = CreerGrille();
+        Assert.Equal(0, g.Erreurs);
+        Assert.False(g.PartieTerminee);
+    }
+
+    [Fact]
+    public void MauvaiseValeurIncrementeErreurs()
+    {
+        Grille g = CreerGrille();
+        g.Charger();
+        g.ValeurSelectionne = 2;
+        g.Curseur.Ligne = 1;
+        g.Curseur.Colonne = 1;
+        g.MettreValeur();
+        Assert.Equal(1, g.Erreurs);
+        Assert.False(g.PartieTerminee);
+    }
+
+    [Fact]
+    public void TroisErreursDonnePartiePerdue()
+    {
+        FakeConsole console = new FakeConsole();
+        Grille g = CreerGrille(console: console);
+        g.Charger();
+        g.ValeurSelectionne = 2;
+        g.Curseur.Ligne = 1; g.Curseur.Colonne = 1;
+        g.MettreValeur();
+        g.Curseur.Ligne = 1; g.Curseur.Colonne = 2;
+        g.MettreValeur();
+        g.Curseur.Ligne = 1; g.Curseur.Colonne = 3;
+        g.MettreValeur();
+        Assert.Equal(3, g.Erreurs);
+        Assert.True(g.PartieTerminee);
+        Assert.NotNull(console.DernierMessage);
+    }
+
+    private class FakeChargeurPresquePleine : IChargeur
+    {
+        public Case[,] ChargerGrille(Grille grille)
+        {
+            Case[,] cases = new Case[grille.Taille, grille.Taille];
+            for (int l = 0; l < grille.Taille; l++)
+                for (int c = 0; c < grille.Taille; c++)
+                {
+                    // Toutes affichées sauf (1,1)
+                    bool aff = !(l == 1 && c == 1);
+                    bool init = aff;
+                    cases[l, c] = new Case(l, c, 1, aff, init);
+                }
+            return cases;
+        }
+    }
+
+    [Fact]
+    public void GrillePleineApresDerniereCase()
+    {
+        FakeConsole console = new FakeConsole();
+        Grille g = new Grille(9, console, new FakeChargeurPresquePleine());
+        g.Charger();
+        g.ValeurSelectionne = 1;
+        g.Curseur.Ligne = 1;
+        g.Curseur.Colonne = 1;
+        g.MettreValeur();
+        Assert.True(g.PartieTerminee);
+        Assert.NotNull(console.DernierMessage);
     }
 }

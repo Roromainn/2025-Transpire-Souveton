@@ -29,6 +29,8 @@ public class Grille
     private int? valeurSelectionne;
     private Coordonnes curseur;
     private bool choixMode;
+    private int erreurs;
+    private bool partieTerminee;
     #endregion
 
     #region--Propriétés--
@@ -36,6 +38,8 @@ public class Grille
     public IChargeur Chargeur { get { return chargeur; } }
     public IConsole Console { get { return console; } }
     public bool Choix { get { return choixMode; } }
+    public int Erreurs { get { return erreurs; } }
+    public bool PartieTerminee { get { return partieTerminee; } }
 
     public int? ValeurSelectionne
     {
@@ -67,6 +71,8 @@ public class Grille
         this.chargeur = chargeur;
         this.curseur = new Coordonnes(taille);
         this.valeurSelectionne = null;
+        this.erreurs = 0;
+        this.partieTerminee = false;
     }
     #endregion
 
@@ -116,11 +122,27 @@ public class Grille
             throw new EGrilleValeurNulle("Aucune valeur sélectionnée");
 
         Case currentCase = cases[curseur.Ligne, curseur.Colonne];
-        if (!currentCase.Initiale && !currentCase.Affiche
-            && currentCase.Valeur == valeurSelectionne.Value)
+        if (!currentCase.Initiale && !currentCase.Affiche)
         {
-            currentCase.Reveler();
-            currentCase.Choix.Clear();
+            if (currentCase.Valeur == valeurSelectionne.Value)
+            {
+                currentCase.Reveler();
+                currentCase.Choix.Clear();
+                if (EstPleine())
+                {
+                    partieTerminee = true;
+                    console.AfficherFin("Vous avez gagné avec " + erreurs + " erreur");
+                }
+            }
+            else
+            {
+                erreurs++;
+                if (erreurs >= 3)
+                {
+                    partieTerminee = true;
+                    console.AfficherFin("Vous avez perdu");
+                }
+            }
         }
     }
 
@@ -167,6 +189,19 @@ public class Grille
                 cases[l, c].Choix.Remove(valeur);
             }
         }
+    }
+
+    private bool EstPleine()
+    {
+        for (int l = 0; l < taille; l++)
+        {
+            for (int c = 0; c < taille; c++)
+            {
+                if (!cases![l, c].Affiche)
+                    return false;
+            }
+        }
+        return true;
     }
     #endregion
 

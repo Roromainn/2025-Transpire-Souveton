@@ -9,6 +9,7 @@ public class ChargeurDefautTest
     private class FakeConsole : IConsole
     {
         public void AfficherGrille(Grille grille) { }
+        public void AfficherFin(string message) { }
     }
 
     private Grille CreerGrille()

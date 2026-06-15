@@ -12,11 +12,13 @@ public class ConsoleWpf : IConsole
 {
     private readonly UniformGrid panel;
     private readonly TextBlock? modeLabel;
+    private readonly TextBlock? erreursLabel;
 
-    public ConsoleWpf(UniformGrid panel, TextBlock? modeLabel = null)
+    public ConsoleWpf(UniformGrid panel, TextBlock? modeLabel = null, TextBlock? erreursLabel = null)
     {
         this.panel = panel;
         this.modeLabel = modeLabel;
+        this.erreursLabel = erreursLabel;
     }
 
     public void AfficherGrille(Grille grille)
@@ -24,6 +26,8 @@ public class ConsoleWpf : IConsole
         int t = grille.Taille;
         int racine = (int)Math.Sqrt(t);
         panel.Children.Clear();
+        if (erreursLabel != null)
+            erreursLabel.Text = "Erreurs : " + grille.Erreurs + " / 3";
 
         if (modeLabel != null)
         {
@@ -113,6 +117,11 @@ public class ConsoleWpf : IConsole
                 panel.Children.Add(border);
             }
         }
+    }
+
+    public void AfficherFin(string message)
+    {
+        System.Windows.MessageBox.Show(message, "Fin de partie", System.Windows.MessageBoxButton.OK);
     }
 
     /// <summary>

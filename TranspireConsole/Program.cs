@@ -62,6 +62,8 @@ while (continuer)
                 {
                     grille.EnleverChoix();
                     grille.MettreValeur();
+                    if (grille.PartieTerminee)
+                        continuer = false;
                 }
                 break;
             case ConsoleKey.M:
