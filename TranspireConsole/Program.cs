@@ -3,6 +3,24 @@ using Metier.Model;
 using TranspireConsole;
 using System;
 
+Console.WriteLine("Choisir taille (4 ou 9): ");
+int taille = 9;
+bool tailleValide = false;
+
+while (!tailleValide)
+{
+    string inputTaille = Console.ReadLine();
+    if (int.TryParse(inputTaille, out int t) && (t == 4 || t == 9))
+    {
+        taille = t;
+        tailleValide = true;
+    }
+    else
+    {
+        Console.WriteLine("Taille invalide. Entrez 4 ou 9: ");
+    }
+}
+
 // Demander la difficulté
 Console.WriteLine("Choisir difficulté (1-6): ");
 int difficulte = 3;
@@ -23,8 +41,8 @@ while (!difficulteValide)
 }
 
 ConsoleTexte consoleTexte = new ConsoleTexte();
-ChargeurHasard chargeur = new ChargeurHasard(9, difficulte);
-Grille grille = new Grille(9, consoleTexte, chargeur);
+ChargeurHasard chargeur = new ChargeurHasard(taille, difficulte);
+Grille grille = new Grille(taille, consoleTexte, chargeur);
 grille.Charger();
 
 bool continuer = true;
@@ -77,7 +95,7 @@ while (continuer)
                 if (char.IsDigit(touche.KeyChar))
                 {
                     int val = int.Parse(touche.KeyChar.ToString());
-                    if (val >= 1 && val <= 9)
+                    if (val >= 1 && val <= grille.Taille)
                     {
                         grille.ValeurSelectionne = val;
                     }

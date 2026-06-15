@@ -48,8 +48,8 @@ public class Grille
         {
             if (value == null)
                 throw new EGrilleValeur("La valeur ne peut pas être nulle");
-            if (value < 1 || value > 9)
-                throw new EGrilleValeur($"La valeur doit être comprise entre 1 et 9, valeur reçue : {value}");
+            if (value < 1 || value > taille)
+                throw new EGrilleValeur($"La valeur doit être comprise entre 1 et {taille}, valeur reçue : {value}");
             valeurSelectionne = value;
         }
     }
