@@ -71,7 +71,7 @@ public class ConsoleTexte : IConsole
         }
 
         Console.Write("\nValeur selectionnee : ");
-        for (int i = 1; i <= 9; i++)
+        for (int i = 1; i <= t; i++)
         {
             if (grille.ValeurSelectionne == i)
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -105,12 +105,13 @@ public class ConsoleTexte : IConsole
     /// </summary>
     private void EcrireBordureV(bool rouge, int c, int t)
     {
+        int racine = (int)Math.Sqrt(t);
         if (rouge)
             Console.ForegroundColor = ConsoleColor.Red;
 
         if (c == 0 || c == t)
             Console.Write("│");
-        else if (c % 3 == 0)
+        else if (c % racine == 0)
             Console.Write("║");
         else
             Console.Write("│");
@@ -125,6 +126,7 @@ public class ConsoleTexte : IConsole
     {
         bool toucheCurseur = (rowAbove == Sr || rowBelow == Sr);
 
+        int racine = (int)Math.Sqrt(t);
         for (int c = 0; c < t; c++)
         {
             bool jonctionRouge = toucheCurseur && (c == Sc || c == Sc + 1);
@@ -132,7 +134,7 @@ public class ConsoleTexte : IConsole
             bool segmentRouge = toucheCurseur && c == Sc;
             if (segmentRouge)
                 Console.ForegroundColor = ConsoleColor.Red;
-            bool ligneDouble = (rowBelow % 3 == 0);
+            bool ligneDouble = (rowBelow % racine == 0);
             Console.Write(ligneDouble ? "═════" : "─────");
             Console.ResetColor();
         }
@@ -149,8 +151,9 @@ public class ConsoleTexte : IConsole
         if (rouge)
             Console.ForegroundColor = ConsoleColor.Red;
 
-        bool ligneDouble = (rowBelow % 3 == 0);
-        bool colDouble = (c % 3 == 0);
+        int racine = (int)Math.Sqrt(t);
+        bool ligneDouble = (rowBelow % racine == 0);
+        bool colDouble = (c % racine == 0);
         char ch;
 
         if (rowAbove == -1)
